@@ -1,0 +1,121 @@
+<div class="content-container">
+    <form [formGroup]="exampleForm" (ngSubmit)="onSubmit()" class="form-layout">
+
+        <div class="section-card p-4 border-round-xl surface-card shadow-1">
+            <h3 class="text-900 font-bold mb-4 flex align-items-center"
+                style="font-family: 'Calibri', sans-serif; font-size: 22px; color: #4b5563;">
+                <i class="pi pi-calendar mr-2 text-primary"></i> Thông Tin Bát Tự & Lá số giống ngày giờ sinh
+            </h3>
+
+            <div class="bazi-grid">
+                @for (pillar of ['Năm', 'Tháng', 'Ngày', 'Giờ']; track $index) {
+                <div class="bazi-column">
+
+                    <div class="text-center font-bold text-xs text-500 uppercase white-space-nowrap">
+                        {{pillar}}
+                    </div>
+
+                    <p-select [options]="thienCan" [(ngModel)]="baziData[$index].can"
+                        [ngModelOptions]="{standalone: true}" (onChange)="onValueChange()" placeholder="Can"
+                        [fluid]="true" class="w-full select-can" />
+
+                    <p-select [options]="diaChi" [(ngModel)]="baziData[$index].chi"
+                        [ngModelOptions]="{standalone: true}" (onChange)="onValueChange()" placeholder="Chi"
+                        [fluid]="true" class="w-full select-chi" />
+
+                </div>
+                }
+            </div>
+
+            <div class="col-12 lg:col-7 pl-4">
+                <div class="flex align-items-center justify-content-between mb-2">
+                    <span class="font-bold"
+                        style="font-family: 'Calibri', sans-serif; font-size: 18px; color: #fa0303;">
+                        Lá số tương tự tìm thấy:
+                    </span>
+
+                    <div class="flex gap-2">
+                        <p-button [label]="isListVisible() ? 'Ẩn danh sách' : 'Hiện danh sách'"
+                            [icon]="isListVisible() ? 'pi pi-eye-slash' : 'pi pi-eye'" size="small" text
+                            severity="secondary" (click)="toggleList()" *ngIf="similarLaso().length > 0" />
+
+                        <p-button label="Làm mới" icon="pi pi-refresh" size="small" text severity="info"
+                            (click)="onValueChange()" />
+                    </div>
+                </div>
+
+                <div class="dataview-container shadow-1 border-round-md"
+                    *ngIf="similarLaso().length > 0 && isListVisible()">
+                    <p-dataview [value]="similarLaso()" layout="list">
+                        <ng-template #list let-items>
+                            <div class="flex flex-column">
+                                <div *ngFor="let item of items; let first = first"
+                                    class="p-3 cursor-pointer hover:surface-100 transition-duration-200"
+                                    [ngClass]="{ 'border-top-1 surface-border': !first }">
+                                    <div class="flex flex-row justify-content-between align-items-center gap-3">
+                                        <div class="flex flex-column gap-1">
+                                            <div class="text-lg font-bold text-900">{{ item.title }}</div>
+                                            <div class="text-sm text-600 italic">{{ item.desc }}</div>
+                                        </div>
+                                        <p-button icon="pi pi-chevron-right" [rounded]="true" [text]="true"
+                                            severity="secondary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dataview>
+                </div>
+
+                <div *ngIf="similarLaso().length === 0"
+                    class="flex p-5 surface-50 border-round-md border-1 border-dashed surface-border align-items-center justify-content-center text-500">
+                    <i class="pi pi-info-circle mr-2"></i>
+                    <span>Chọn trụ Ngày để hiển thị danh sách gợi ý...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="title-section" style="width: 100%; margin-bottom: 1rem;">
+            <p></p>
+
+            <label for="native-title" class="section-label"
+                style="font-family: 'Calibri', sans-serif; font-size: 25px; font-weight: bold; color: #4b5563; display: block; margin-bottom: 0.5rem;">
+                Tiêu đề Lá Số
+            </label>
+
+            <div class="textarea-wrapper" style="width: 100%;">
+                <textarea id="native-title" [(ngModel)]="valueLasoTitle" [ngModelOptions]="{standalone: true}"
+                    placeholder="Nhập tiêu đề..."
+                    oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
+                    class="native-textarea" style="
+                width: 100%;                  /* Chiều dài tối đa */
+                font-family: 'Calibri', sans-serif; /* Font Calibri */
+                font-size: 20px;              /* Cỡ chữ to */
+                font-weight: 600;             /* Chữ hơi đậm */
+                line-height: 1.4;             /* Khoảng cách dòng thoáng */
+                color: #1f2937;               /* Màu chữ đậm rõ */
+                padding: 10px;                /* Khoảng cách lề trong */
+                border: 1px solid #d1d5db;    /* Viền nhẹ */
+                border-radius: 6px;           /* Bo góc */
+                outline: none;                /* Bỏ viền xanh mặc định khi click */
+                resize: none;                 /* Tắt nút kéo co giãn thủ công */
+                overflow: hidden;             /* Ẩn thanh cuộn */
+                min-height: 50px;             /* Chiều cao tối thiểu */
+                box-sizing: border-box;       /* Đảm bảo padding không làm vỡ khung */
+            ">
+        </textarea>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <label class="font-bold text-900 block mb-2"
+                style="font-family: 'Calibri', sans-serif; font-size: 25px; font-weight: bold; color: #4b5563; display: block; margin-bottom: 0.5rem;">Nội
+                dung chi
+                tiết</label>
+            <p-editor formControlName="text" [style]="{ height: '400px' }" placeholder="Nhập lời giải..."></p-editor>
+        </div>
+
+        <div class="flex justify-content-end mt-4">
+            <p-button label="Lưu nội dung" icon="pi pi-save" type="submit" [raised]="true" severity="success" />
+        </div>
+    </form>
+</div>

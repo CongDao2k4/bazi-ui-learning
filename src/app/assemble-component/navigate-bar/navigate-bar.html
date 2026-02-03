@@ -1,0 +1,20 @@
+<div class="card">
+  @if (!isSmallScreen()) {
+  <p-menubar [model]="items()">
+    <ng-template #end>
+      <app-theme-switcher />
+    </ng-template>
+  </p-menubar>
+  <!-- } @else {
+    <p-button (click)="menu.toggle($event)" icon="pi pi-bars" />
+    <p-menu #menu [model]="items()" [popup]="true" />
+    <app-theme-switcher/>
+  } -->
+  } @else {
+  <div style="display: flex; align-items: center; gap: 10px; padding: 10px;">
+    <p-button (click)="menu.toggle($event)" icon="pi pi-bars" />
+    <p-menu #menu [model]="items()" [popup]="true" />
+    <app-theme-switcher />
+  </div>
+  }
+</div>

@@ -43,7 +43,7 @@ body {
 }
 
 /* Cột bên trái: Sidebar Tree */
-.sidebar-tree {
+.relative-item-side {
   flex: 0 0 320px;
   background: var(--surface-card);
   border: none;

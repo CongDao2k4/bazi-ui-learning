@@ -1,10 +1,10 @@
 <app-navigate-bar></app-navigate-bar>
-<div class="main-layout">
+<div class="new-content-layout">
     <div class="relative-item-side">
-        <app-relative-item></app-relative-item>
+        <app-relative-item [searchCriteria]="searchState()"></app-relative-item>
     </div>
 
     <div class="content-area">
-        <app-item-content></app-item-content>
+        <app-item-content (searchTrigger)="onSearch($event)"></app-item-content>
     </div>
 </div>

@@ -1,1 +1,28 @@
-<p>relative-item works!</p>
+<div class="relative-container h-full flex flex-column relative">
+    <div class="header text-center p-3 pt-4 border-bottom-1 surface-border font-bold text-lg uppercase text-primary">
+        Danh sách tương tự
+    </div>
+    <div class="content-list flex-grow-1 overflow-y-auto p-2">
+        <div *ngIf="isLoading()" class="flex align-items-center justify-content-center p-3">
+            <i class="pi pi-spin pi-spinner text-2xl"></i>
+        </div>
+
+        <p-dataview #dv [value]="resultList()" [rows]="5" [paginator]="true"
+            *ngIf="!isLoading() && resultList().length > 0">
+            <ng-template #list let-items>
+                <div class="flex flex-column">
+                    <ng-container *ngFor="let item of items">
+                        <app-item-card [data]="item"></app-item-card>
+                    </ng-container>
+                </div>
+            </ng-template>
+        </p-dataview>
+
+        <div *ngIf="!isLoading() && resultList().length === 0" class="text-center p-3 text-500">
+            Chưa có kết quả
+        </div>
+    </div>
+
+    <!-- Resize Handle -->
+    <div class="resize-handle" (mousedown)="onMouseDown($event)"></div>
+</div>

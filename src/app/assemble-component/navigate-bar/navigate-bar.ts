@@ -32,9 +32,9 @@ export class NavigateBar implements OnInit {
     this.items.set([
       { label: 'Home', icon: 'pi pi-home', routerLink: '/home' },
       { label: 'Search', icon: 'pi pi-search', routerLink: '/search' },
-      { label: 'Topics', icon: 'pi pi-list', routerLink: '/topics' },
-      { label: 'Latest Content', icon: 'pi pi-clock', routerLink: '/lastest-content' },
-      { label: 'New Item', icon: 'pi pi-file', routerLink: '/newcontent' }
+      //{ label: 'Item Page', icon: 'pi pi-list', routerLink: '/itempage' },
+      { label: 'New Content', icon: 'pi pi-clock', routerLink: '/newcontent' }
+      //{ label: 'New Item', icon: 'pi pi-file', routerLink: '/newcontent' }
     ]);
   }
 

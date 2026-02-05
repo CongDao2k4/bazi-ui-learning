@@ -1,1 +1,48 @@
-<p>item-card works!</p>
+<div class="card p-2 mb-2 surface-card shadow-none cursor-pointer hover:surface-100 transition-colors transition-duration-200"
+    *ngIf="data">
+    <!-- Header: ID - Date -->
+    <div class="mb-2 text-sm text-700 font-bold border-bottom-1 surface-border pb-1">
+        {{ data.laso_id }} <span class="mx-1">-</span> <span class="font-normal text-xs text-color-secondary">cập nhật
+            {{
+            data.last_modified }}</span>
+    </div>
+
+    <!-- Pillars Grid (Similar to Bazi Info) -->
+    <div class="bazi-grid-compact">
+        <!-- Năm -->
+        <div class="bazi-column-styled text-center p-1">
+            <!-- <div class="text-xs text-500 mb-1">Năm</div> -->
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 mb-1 font-bold text-primary text-xs">
+                {{ data.tc1 }}</div>
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 font-bold text-orange-600 text-xs">{{
+                data.dc1 }}</div>
+        </div>
+
+        <!-- Tháng -->
+        <div class="bazi-column-styled text-center p-1">
+            <!-- <div class="text-xs text-500 mb-1">Tháng</div> -->
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 mb-1 font-bold text-primary text-xs">
+                {{ data.tc2 }}</div>
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 font-bold text-orange-600 text-xs">{{
+                data.dc2 }}</div>
+        </div>
+
+        <!-- Ngày -->
+        <div class="bazi-column-styled text-center p-1">
+            <!-- <div class="text-xs text-500 mb-1">Ngày</div> -->
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 mb-1 font-bold text-primary text-xs">
+                {{ data.tc3 }}</div>
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 font-bold text-orange-600 text-xs">{{
+                data.dc3 }}</div>
+        </div>
+
+        <!-- Giờ -->
+        <div class="bazi-column-styled text-center p-1">
+            <!-- <div class="text-xs text-500 mb-1">Giờ</div> -->
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 mb-1 font-bold text-primary text-xs">
+                {{ data.tc4 }}</div>
+            <div class="surface-100 border-1 surface-border border-round px-1 py-1 font-bold text-orange-600 text-xs">{{
+                data.dc4 }}</div>
+        </div>
+    </div>
+</div>

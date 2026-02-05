@@ -1,0 +1,188 @@
+/* You can add global styles to this file, and also import other style files */
+/* styles.css */
+/* Thêm biểu tượng kéo dãn ở góc dưới bên phải (nếu PrimeNG chưa hiện rõ) */
+:host ::ng-deep .p-resizable-handle {
+    bottom: 1px;
+    right: 1px;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+}
+
+/* Ép content của Dialog hoạt động theo mô hình Flexbox */
+:host ::ng-deep .custom-resizable-dialog .p-dialog-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important; /* Ngăn scroll toàn cục của dialog */
+    height: 100%;
+}
+
+/* Đảm bảo khi kéo dãn, các phần tử bên trong dãn theo */
+:host ::ng-deep .p-dialog .p-dialog-content {
+    padding: 0 1.5rem 1rem 1.5rem;
+}
+
+:root {
+  --surface-ground: #f4f7f9;
+  --surface-card: #ffffff;
+  --border-radius: 12px;
+}
+
+body {
+  background-color: var(--surface-ground);
+  margin: 0;
+  font-family: var(--font-family);
+}
+
+.main-layout {
+  display: flex;
+  height: calc(100vh - 70px); /* Trừ đi chiều cao của navbar */
+  padding: 1rem;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Cột bên trái: Sidebar Tree */
+.relative-item-side {
+  flex: 0 0 320px;
+  background: var(--surface-card);
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  overflow: hidden; /* Để scroll cho phần tree bên trong */
+}
+
+/* Cột bên phải: Content Area */
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0; /* Tránh vỡ layout với các thành phần lớn */
+}
+
+/* Container chứa Form */
+.content-container {
+  background: var(--surface-card);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Tinh chỉnh Bazi Grid */
+.bazi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  background: var(--surface-ground);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  width: 50%;
+}
+
+.bazi-column {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s;
+}
+
+.bazi-column:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* Tối ưu lại bazi-grid cho không gian hẹp */
+.bazi-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.bazi-column-styled {
+  background: var(--surface-card);
+  padding: 8px;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+}
+
+/* Đảm bảo khung kết quả có chiều cao cố định để không đẩy layout */
+.similar-results-container {
+  min-height: 200px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* Tùy chỉnh màu sắc cho dropdown Can Chi */
+:host ::ng-deep .p-dropdown {
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-dropdown .p-inputtext {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Custom cho Select Can Chi */
+:host ::ng-deep .select-can .p-select-label {
+    color: var(--p-primary-color);
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+:host ::ng-deep .select-chi .p-select-label {
+    color: #ea580c; /* Màu cam cho Địa Chi */
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+:host ::ng-deep .p-select-label {
+    padding: 0.4rem 0.2rem !important; /* Giảm padding ngang để chữ Can/Chi không bị lấp */
+    font-size: 0.85rem;
+}
+
+/* Khung kết quả tương tự */
+.similar-box::-webkit-scrollbar {
+    width: 4px;
+}
+.similar-box::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 10px;
+}
+
+.section-card {
+    transition: all 0.3s ease;
+}
+
+/* Container của DataView */
+.dataview-container {
+    background-color: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    /* Không để height cố định để tự dãn theo nội dung */
+    max-height: 500px; /* Giới hạn tối đa để tránh quá dài phá layout */
+    overflow-y: auto;
+}
+
+/* Tùy chỉnh hover cho các item trong dataview */
+.dataview-container :host ::ng-deep .p-dataview-content {
+    background: transparent;
+}
+
+/* Hiệu ứng khi ẩn hiện cho mượt mà */
+.dataview-container {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

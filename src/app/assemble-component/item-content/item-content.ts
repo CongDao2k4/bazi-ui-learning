@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectModule } from 'primeng/select'; // Sử dụng Select thay cho Dropdown
@@ -12,24 +12,7 @@ import { EditorModule } from 'primeng/editor';
 import { ToastModule } from 'primeng/toast';
 import { MessageService, MenuItem } from 'primeng/api';
 import { DataViewModule } from 'primeng/dataview'; // Import DataView
-
-// Giả định LasoService để tìm kiếm dữ liệu
-class LasoService {
-  findSimilar(bazi: any): Promise<any[]> {
-    // Giả lập trả về 5 kết quả
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve([
-          { id: 1, title: 'Lá số Nguyễn Văn A', desc: 'Giống 90% trụ ngày' },
-          { id: 2, title: 'Lá số Trần Thị B', desc: 'Cùng can ngày, chi tháng' },
-          { id: 3, title: 'Lá số Lê Văn C', desc: 'Mệnh cục tương đồng' },
-          { id: 4, title: 'Lá số Phạm D', desc: 'Cách cục đặc biệt' },
-          { id: 5, title: 'Lá số Hoàng E', desc: 'Năm sinh trùng khớp' }
-        ]);
-      }, 500);
-    });
-  }
-}
+import { LasoService } from '../../services/laso-service';
 
 @Component({
   selector: 'app-item-content',
@@ -39,7 +22,7 @@ class LasoService {
     SelectModule, ButtonModule, ToolbarModule, SplitButtonModule,
     InputTextModule, IconFieldModule, InputIconModule, EditorModule, ToastModule, DataViewModule, CommonModule
   ],
-  providers: [MessageService, LasoService],
+  providers: [MessageService],
   templateUrl: './item-content.html',
   styleUrl: './item-content.css'
 })
@@ -72,6 +55,8 @@ export class ItemContent implements OnInit {
   exampleForm: FormGroup;
   formSubmitted = false;
 
+  @Output() searchTrigger = new EventEmitter<any>();
+
   private messageService = inject(MessageService);
   private lasoService = inject(LasoService);
   private fb = inject(FormBuilder);
@@ -92,11 +77,35 @@ export class ItemContent implements OnInit {
 
   // Khi có dữ liệu mới, tự động mở danh sách ra hoặc khi thay đổi dữ liệu can chi 
   onValueChange() {
-    if (this.baziData[2].can && this.baziData[2].chi) {
+    // Check if Year, Month, and Day are selected
+    const isYearSelected = this.baziData[0].can && this.baziData[0].chi;
+    const isMonthSelected = this.baziData[1].can && this.baziData[1].chi;
+    const isDaySelected = this.baziData[2].can && this.baziData[2].chi;
+
+    if (isYearSelected && isMonthSelected && isDaySelected) {
+      // Local search (preserve existing behavior if needed, or update to use the shared service return)
+      // The user said: "item-content thì đã có code kích hoạt... rồi". 
+      // I am assuming the local display is still desired.
+
       this.lasoService.findSimilar(this.baziData).then(res => {
-        this.similarLaso.set(res);
-        this.isListVisible.set(true); 
+        // Using the new mock data structure, we might need to adapt it for the local display 
+        // or if the local display expects {title, desc}.
+        // The new mock data has {laso_id, tc1, ...}. 
+        // I should probably map it if I want to keep the local display working OR update the local template.
+        // Let's preserve the existing template logic by mapping or just letting it be if the template is robust.
+        // Looking at item-content.html: it uses {{ item.title }} and {{ item.desc }}.
+        // The new data doesn't have these. I should probably map the new data or update the mock.
+        // To stay safe: I'll map it for local display.
+        const mappedRes = res.map(item => ({
+          title: `Lá số ${item.laso_id}`,
+          desc: `Ngày: ${item.tc3} ${item.dc3}`
+        }));
+        this.similarLaso.set(mappedRes);
+        this.isListVisible.set(true);
       });
+
+      // Emit event for parent
+      this.searchTrigger.emit(this.baziData);
     }
   }
 
